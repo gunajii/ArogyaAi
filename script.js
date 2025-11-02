@@ -7,11 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const langSelector = document.getElementById('lang-selector');
     const micButton = document.getElementById('mic-button'); 
 
-    // --- 2. API URLs (for GitHub Pages Demo) ---
-    // Make sure this is your *current* ngrok URL
-    const NGROK_URL = 'https://feetless-kecia-plantable.ngrok-free.dev'; 
-    const API_URL_CHAT = `${NGROK_URL}/chat`;
-    const API_URL_TRANSLATE = `${NGROK_URL}/translate`;
+    // --- 2. API URLs (for Local Demo) ---
+    const NGROK_URL = 'https://feetless-kecia-plantable.ngrok-free.dev';
+    const API_URL_CHAT = 'https://feetless-kecia-plantable.ngrok-free.dev/chat';
+    const API_URL_TRANSLATE = 'https://feetless-kecia-plantable.ngrok-free.dev/translate';
 
     // --- 3. Speech Recognition (Speech-to-Text) Setup ---
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -58,11 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 4. Speech Synthesis (Text-to-Speech) Setup ---
+    
+    // This is the new, robust way to load voices
     let voices = [];
     function loadVoices() {
         voices = window.speechSynthesis.getVoices();
     }
+    
+    // Load voices initially
     loadVoices();
+    // Gaurantee voices are loaded when they change (e.g., on first load)
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
         window.speechSynthesis.onvoiceschanged = loadVoices;
     }
@@ -73,22 +77,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const textToSpeak = speakButton.parentElement.querySelector('p').textContent;
             const utterance = new SpeechSynthesisUtterance(textToSpeak);
             
-            const selectedLang = langSelector.value;
+            const selectedLang = langSelector.value; // 'en-US' or 'mr-IN'
             utterance.lang = selectedLang;
             
+            // --- THIS IS THE FIX ---
+            // We use our pre-loaded list and a more flexible search
+            
+            // Try to find an exact match (e.g., 'mr-IN')
             let matchingVoice = voices.find(voice => voice.lang === selectedLang);
+            
             if (!matchingVoice) {
+                // If not found, find a partial match (e.g., just 'mr')
                 matchingVoice = voices.find(voice => voice.lang.startsWith(selectedLang.split('-')[0]));
             }
+            // --- END OF FIX ---
 
             if (matchingVoice) {
                 utterance.voice = matchingVoice;
             } else {
                  console.warn(`No voice found for ${selectedLang}. Using default.`);
+                 // Alert the user if they're trying to speak Marathi and it's not installed
                  if (selectedLang === 'mr-IN') {
                     alert("Sorry, your browser does not have a Marathi voice installed. Please install a Marathi (mr-IN) voice pack for your operating system or browser to use this feature.");
                  }
             }
+
             window.speechSynthesis.cancel(); 
             window.speechSynthesis.speak(utterance);
         }
@@ -123,10 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- Step 2: Send (English) query to the Chatbot ---
             const response = await fetch(API_URL_CHAT, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'ngrok-skip-browser-warning': 'true' // <-- THIS IS THE FIX
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ query: queryToSend }),
             });
 
@@ -136,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
-            let fullResponse = "";
+            let fullResponse = ""; // Accumulate the full English response
 
             while (true) {
                 const { done, value } = await reader.read();
@@ -153,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
+                // Don't update UI until translation is done
                 scrollToBottom();
             }
 
@@ -178,15 +189,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 6. Helper Functions ---
     
+    /**
+     * Calls our *own* backend for translation
+     */
     async function translateText(text, targetLang, sourceLang = "auto") {
         if (!text) return "";
         try {
             const response = await fetch(API_URL_TRANSLATE, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'ngrok-skip-browser-warning': 'true' // <-- THIS IS THE FIX
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     text: text,
                     target_lang: targetLang,
