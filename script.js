@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const micButton = document.getElementById('mic-button'); 
 
     // --- 2. API URLs (for Local Demo) ---
-    const API_URL_CHAT = 'http://127.0.0.1:8000/chat';
-    const API_URL_TRANSLATE = 'http://127.0.0.1:8000/translate';
+    const API_URL_CHAT = 'https://feetless-kecia-plantable.ngrok-free.app/chat';
+    const API_URL_TRANSLATE = 'https://feetless-kecia-plantable.ngrok-free.app/translate';
 
     // --- 3. Speech Recognition (Speech-to-Text) Setup ---
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
