@@ -1,0 +1,47 @@
+/* --- Additions for Voice Buttons --- */
+
+/* Style for the Mic Button */
+#mic-button {
+    padding: 0 15px;
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#mic-button:hover {
+    background-color: #e0e0e0;
+}
+#mic-button.is-recording {
+    background-color: #f44336;
+    color: white;
+    border-color: #f44336;
+}
+
+/* Style for the Speak Button */
+.speak-button {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 50%;
+    display: none; /* Hidden by default */
+}
+.speak-button:hover {
+    background-color: #ddd;
+    color: #000;
+}
+.bot-message {
+    display: flex; /* Make message a flex container */
+    align-items: center; /* Align text and button */
+}
+.bot-message p {
+    flex-grow: 1; /* Make text take up available space */
+}
+
+/* --- End of Voice Button Styles --- */

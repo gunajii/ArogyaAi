@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Medical Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Al Medical Assistant</h1>
+            <p>Your private, local health information resource</p>
+            <div class="lang-selector-container">
+                <label for="lang-selector">Language: </label>
+                <select id="lang-selector">
+                    <option value="EN-US">English</option>
+                    <option value="MR">मराठी (Marathi)</option>
+                </select>
+            </div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                <p>Hello! How can I help you today? Please describe your symptoms or ask a medical question.</p>
+                <button class="speak-button" aria-label="Read message aloud">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chat-input-form">
+            <form id="chat-form">
+                <button type="button" id="mic-button" aria-label="Use microphone">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <input type="text" id="message-input" placeholder="Type your message here..." autocomplete="off" required>
+                <button type="submit" id="send-button">Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="disclaimer-footer">
+        <p><strong>Important:</strong> This is an Al assistant and not a substitute for professional
+        medical advice. Information provided is for educational purposes only. Always consult a
+        qualified healthcare provider for diagnosis and treatment.</p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
