@@ -1,21 +1,21 @@
-/* === FINAL SKELETON/MINIMALIST TEMPLATE === */
+/* === DARK MODE THEME === */
 
 /* --- Root Variables & Font --- */
 :root {
-    --page-bg: #f4f7f6;
-    --chat-bg: #ffffff;
-    --header-bg: #ffffff;
-    --footer-bg: #2a2a2a;
-    --user-msg-bg: #333;
-    --bot-msg-bg: #ebebeb;
-    --text-dark: #2a2a2a;
-    --text-light: #fefefe;
-    --text-muted: #6c757d;
-    --border-color: #e9ecef;
+    --page-bg: #121212;
+    --chat-bg: #1e1e1e;
+    --header-bg: #1e1e1e;
+    --footer-bg: #1e1e1e;
+    --user-msg-bg: #007bff;
+    --bot-msg-bg: #333333;
+    --text-dark: #e0e0e0;
+    --text-light: #ffffff;
+    --text-muted: #888888;
+    --border-color: #333333;
 }
 
 body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--page-bg);
     margin: 0;
     display: flex;
@@ -30,51 +30,55 @@ body {
     flex-direction: column;
     max-width: 800px;
     width: 95%;
-    max-height: calc(100vh - 80px); /* Space for footer/margins */
-    margin: auto;
+    max-height: calc(100vh - 80px);
+    margin: 40px auto;
     background-color: var(--chat-bg);
-    border: 1px solid var(--border-color); /* Clean border */
-    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
     overflow: hidden;
     flex-grow: 1;
-    margin-bottom: 70px; /* Space for the footer */
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.04);
+    margin-bottom: 70px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
 }
 
 /* --- Chat Header --- */
 .chat-header {
     background-color: var(--header-bg);
     color: var(--text-dark);
-    padding: 16px 24px;
-    text-align: left;
+    padding: 20px 24px;
+    text-align: center;
     border-bottom: 1px solid var(--border-color);
 }
 .chat-header h1 {
     margin: 0;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 600;
 }
 .chat-header p {
     margin: 4px 0 0;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
 }
 
 /* --- Language Selector --- */
 .lang-selector-container {
-    margin-top: 10px;
+    margin-top: 12px;
 }
 .lang-selector-container label {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
 }
 #lang-selector {
-    background-color: #fff;
+    background-color: var(--bot-msg-bg);
     color: var(--text-dark);
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 3px 6px;
-    font-size: 0.85rem;
+    border: 1px solid var(--text-muted);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+}
+#lang-selector option {
+    color: #000;
+    background: #fff;
 }
 
 /* --- Messages Area --- */
@@ -89,17 +93,17 @@ body {
 
 /* --- Individual Message Styling --- */
 .message {
-    max-width: 85%;
+    max-width: 80%;
     padding: 14px 20px;
-    border-radius: 18px; /* Rounded */
+    border-radius: 22px;
     line-height: 1.5;
     word-wrap: break-word;
-    display: flex; /* Use flex for alignment */
-    align-items: center; /* Align text and button */
+    display: flex; 
+    align-items: center; 
 }
 .message p {
     margin: 0;
-    flex-grow: 1; /* Make text take up available space */
+    flex-grow: 1; 
 }
 
 /* --- Bot Message --- */
@@ -107,7 +111,7 @@ body {
     background-color: var(--bot-msg-bg);
     color: var(--text-dark);
     align-self: flex-start;
-    border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 6px;
 }
 
 /* --- User Message --- */
@@ -115,47 +119,52 @@ body {
     background-color: var(--user-msg-bg);
     color: var(--text-light);
     align-self: flex-end;
-    border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 6px;
 }
 
 /* --- Input Form --- */
 .chat-input-form {
     padding: 16px 24px;
     border-top: 1px solid var(--border-color);
-    background-color: #ffffff;
+    background-color: var(--header-bg);
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
 }
 #chat-form {
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 #message-input {
     flex-grow: 1;
     padding: 14px 20px;
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    background-color: #2c2c2c;
+    color: var(--text-dark);
+    border-radius: 24px;
     font-size: 1rem;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 #message-input:focus {
-    border-color: #000;
+    border-color: var(--user-msg-bg);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
 }
 #send-button {
     padding: 14px 24px;
-    background-color: #000;
+    background-color: var(--user-msg-bg);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 24px;
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 #send-button:hover {
-    background-color: #333;
+    background-color: #0056b3;
 }
 #send-button:disabled {
-    background-color: #ccc;
+    background-color: #444;
     cursor: not-allowed;
 }
 
@@ -170,10 +179,11 @@ body {
     text-align: center;
     padding: 12px;
     font-size: 0.8rem;
+    border-top: 1px solid var(--border-color);
 }
 .disclaimer-footer p {
     margin: 0;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 /* --- Typing Indicator --- */
@@ -194,17 +204,23 @@ body {
 
 /* Mic Button */
 #mic-button {
-    padding: 0 15px;
-    background-color: #fff;
-    color: #555;
+    height: 48px;
+    width: 48px;
+    flex-shrink: 0;
+    background-color: var(--bot-msg-bg);
+    color: var(--text-dark);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 50%;
     font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
+    transition: all 0.2s;
 }
 #mic-button:hover {
-    background-color: #f0f0f0;
+    background-color: #444;
+}
+#mic-button:focus {
+    border-color: var(--user-msg-bg);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
 }
 #mic-button.is-recording {
     background-color: #f44336;
@@ -222,11 +238,11 @@ body {
     margin-left: 10px;
     padding: 5px;
     border-radius: 50%;
-    display: none; /* Hidden by default */
+    display: none;
 }
 .speak-button:hover {
-    background-color: #ddd;
-    color: #000;
+    background-color: #444;
+    color: #fff;
 }
 .bot-message p {
     flex-grow: 1;

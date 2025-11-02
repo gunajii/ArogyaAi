@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const micButton = document.getElementById('mic-button'); 
 
     // --- 2. API URLs (for Local Demo) ---
-    const API_URL_CHAT = ' https://feetless-kecia-plantable.ngrok-free.dev/chat';
-    const API_URL_TRANSLATE = ' https://feetless-kecia-plantable.ngrok-free.dev/translate'; // <-- This now works!
+    const API_URL_CHAT = 'http://127.0.0.1:8000/chat';
+    const API_URL_TRANSLATE = 'http://127.0.0.1:8000/translate';
 
     // --- 3. Speech Recognition (Speech-to-Text) Setup ---
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -56,12 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 4. Speech Synthesis (Text-to-Speech) Setup ---
-    // We need to load voices async, as they are not always ready
+    
+    // This is the new, robust way to load voices
     let voices = [];
     function loadVoices() {
         voices = window.speechSynthesis.getVoices();
     }
+    
+    // Load voices initially
     loadVoices();
+    // Gaurantee voices are loaded when they change (e.g., on first load)
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
         window.speechSynthesis.onvoiceschanged = loadVoices;
     }
@@ -75,13 +79,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectedLang = langSelector.value; // 'en-US' or 'mr-IN'
             utterance.lang = selectedLang;
             
-            // This is the fix for the "bugged voice". 
-            // We must find the specific voice for the language.
-            const matchingVoice = voices.find(voice => voice.lang === selectedLang);
+            // --- THIS IS THE FIX ---
+            // We use our pre-loaded list and a more flexible search
+            
+            // Try to find an exact match (e.g., 'mr-IN')
+            let matchingVoice = voices.find(voice => voice.lang === selectedLang);
+            
+            if (!matchingVoice) {
+                // If not found, find a partial match (e.g., just 'mr')
+                matchingVoice = voices.find(voice => voice.lang.startsWith(selectedLang.split('-')[0]));
+            }
+            // --- END OF FIX ---
+
             if (matchingVoice) {
                 utterance.voice = matchingVoice;
             } else {
-                 console.warn(`No voice found for ${selectedLang}, using default.`);
+                 console.warn(`No voice found for ${selectedLang}. Using default.`);
+                 // Alert the user if they're trying to speak Marathi and it's not installed
+                 if (selectedLang === 'mr-IN') {
+                    alert("Sorry, your browser does not have a Marathi voice installed. Please install a Marathi (mr-IN) voice pack for your operating system or browser to use this feature.");
+                 }
             }
 
             window.speechSynthesis.cancel(); 
@@ -172,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 6. Helper Functions ---
     
     /**
-     * NEW: Calls our *own* backend for translation
+     * Calls our *own* backend for translation
      */
     async function translateText(text, targetLang, sourceLang = "auto") {
         if (!text) return "";
